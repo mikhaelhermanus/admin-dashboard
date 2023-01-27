@@ -19,42 +19,48 @@ const pages = {
             title: 'Goods Receive',
             type: 'item',
             url: '/goodReceive/default',
-            icon: icons.ProfileOutlined
+            icon: icons.ProfileOutlined,
+            breadcrumbs: false
         },
         {
             id: 'GoodsIssue',
             title: 'Goods Issue',
             type: 'item',
             url: '/goodReceive/default',
-            icon: icons.ProfileOutlined
+            icon: icons.ProfileOutlined,
+            breadcrumbs: false
         },
         {
             id: 'ReturnGR',
             title: 'Return GR',
             type: 'item',
             url: '/goodReceive/default',
-            icon: icons.ProfileOutlined
+            icon: icons.ProfileOutlined,
+            breadcrumbs: false
         },
         {
             id: 'ReturnGI',
             title: 'Return GI',
             type: 'item',
             url: '/goodReceive/default',
-            icon: icons.ProfileOutlined
+            icon: icons.ProfileOutlined,
+            breadcrumbs: false
         },
         {
             id: 'Service',
             title: 'Product Service',
             type: 'item',
             url: '/goodReceive/default',
-            icon: icons.ProfileOutlined
+            icon: icons.ProfileOutlined,
+            breadcrumbs: false
         },
         {
             id: 'ProductDisposal',
             title: 'Product Disposal',
             type: 'item',
             url: '/goodReceive/default',
-            icon: icons.ProfileOutlined
+            icon: icons.ProfileOutlined,
+            breadcrumbs: false
         },
         
     ]

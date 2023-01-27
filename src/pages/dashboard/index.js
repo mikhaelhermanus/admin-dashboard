@@ -1,77 +1,61 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 // material-ui
 import {
-    Avatar,
-    AvatarGroup,
-    Box,
+    Modal,
     Button,
     Grid,
-    List,
-    ListItemAvatar,
-    ListItemButton,
-    ListItemSecondaryAction,
-    ListItemText,
+    Fade,
+    Box,
+    Backdrop,
     MenuItem,
     Stack,
     TextField,
-    Typography
+    Typography,
+    Select,
+    InputLabel
 } from '@mui/material';
 
 // project import
 import OrdersTable from './OrdersTable';
-import IncomeAreaChart from './IncomeAreaChart';
-import MonthlyBarChart from './MonthlyBarChart';
-import ReportAreaChart from './ReportAreaChart';
-import SalesColumnChart from './SalesColumnChart';
 import MainCard from 'components/MainCard';
-import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
 
-// assets
-import { GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
-import avatar1 from 'assets/images/users/avatar-1.png';
-import avatar2 from 'assets/images/users/avatar-2.png';
-import avatar3 from 'assets/images/users/avatar-3.png';
-import avatar4 from 'assets/images/users/avatar-4.png';
-
-// avatar style
-const avatarSX = {
-    width: 36,
-    height: 36,
-    fontSize: '1rem'
-};
-
-// action style
-const actionSX = {
-    mt: 0.75,
-    ml: 1,
-    top: 'auto',
-    right: 'auto',
-    alignSelf: 'flex-start',
-    transform: 'none'
-};
-
-// sales report status
-const status = [
-    {
-        value: 'today',
-        label: 'Today'
-    },
-    {
-        value: 'month',
-        label: 'This Month'
-    },
-    {
-        value: 'year',
-        label: 'This Year'
-    }
-];
 
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 const DashboardDefault = () => {
-    const [value, setValue] = useState('today');
-    const [slot, setSlot] = useState('week');
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [age, setAge] = React.useState('');
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        backgroundColor: '#FFFFFF',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+    const modalStyles = {
+        inputFields: {
+            margin: 5,
+            display: 'flex',
+            flexDirection: 'column',
+            marginTop: '20px',
+            marginBottom: '15px',
+            '.MuiFormControl-root': {
+                marginBottom: '20px',
+            },
+        },
+    };
 
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -82,12 +66,59 @@ const DashboardDefault = () => {
                         <Typography variant="h5">Manage Product</Typography>
                     </Grid>
                     <Grid item />
-                    <Button>Tambah +</Button>
+                    <Button onClick={handleOpen}>Tambah +</Button>
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
                     <OrdersTable />
                 </MainCard>
             </Grid>
+            <Modal
+                aria-labelledby="spring-modal-title"
+                aria-describedby="spring-modal-description"
+
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={open}>
+                    <Box style={style} >
+                        <Typography mt={2} ml={2} variant="h4" component="h4">
+                            Tambah Produk
+                        </Typography>;
+
+                        <Box sx={modalStyles.inputFields}>
+                            <TextField
+                                placeholder="Nama Produk"
+                                name="Produk"
+                                label="Produk"
+                                required
+                            />
+                            <InputLabel id="demo-simple-select-label">Jenis Produk</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={age}
+                                label="Tipe Produk"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={10}>Parts</MenuItem>
+                                <MenuItem value={20}>Unit</MenuItem>
+                                <MenuItem value={30}>Component</MenuItem>
+                            </Select>
+                            <Box mt={2} />
+                            <TextField placeholder="Jumlah" mt={2} inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
+                            <Button>Simpan sebagai Draft</Button>
+                            <Button variant="contained" color="success">
+                                Simpan
+                            </Button>
+                        </Box>
+                    </Box>
+                </Fade>
+            </Modal>
         </Grid>
     );
 };

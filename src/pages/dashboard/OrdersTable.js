@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Box, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from '@mui/material';
+import { Box, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Input, Button, } from '@mui/material';
 
 // third-party
 import NumberFormat from 'react-number-format';
@@ -16,18 +16,20 @@ function createData(trackingNo, name, fat, carbs, protein) {
 }
 
 const rows = [
-    createData(84564564, 'Camera Lens', 40),
-    createData(98764564, 'Laptop', 300),
-    createData(98756325, 'Mobile', 355),
-    createData(98652366, 'Handset', 50),
-    createData(13286564, 'Computer Accessories', 100),
-    createData(86739658, 'TV', 99),
-    createData(13256498, 'Keyboard', 125),
-    createData(98753263, 'Mouse', 89),
-    createData(98753275, 'Desktop', 185),
-    createData(98753291, 'Chair', 100)
+    createData(84564564, 'Camera Lens', 'Sparepart', 40),
+    createData(98764564, 'Laptop', 'Unit', 300),
+    createData(98756325, 'Mobile', 'Unit', 355),
+    createData(98652366, 'Handset', 'Unit', 50),
+    createData(13286564, 'Computer Accessories', 'Sparepart', 100),
+    createData(86739658, 'TV', 'Unit', 99),
+    createData(13256498, 'Keyboard', 'Accessories', 125),
+    createData(98753263, 'Mouse', 'Accessories', 89),
+    createData(98753275, 'Desktop', 'Accessories', 185),
+    createData(98753291, 'Chair', 'Accessories', 100)
 ];
 
+
+console.log(rows, 'line 32')
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -70,8 +72,14 @@ const headCells = [
         label: 'Product Name'
     },
     {
+        id: 'Type',
+        align: 'left',
+        disablePadding: true,
+        label: 'Jenis'
+    },
+    {
         id: 'fat',
-        align: 'right',
+        align: 'left',
         disablePadding: false,
         label: 'Quantity'
     }
@@ -140,12 +148,12 @@ function OrderTableHead({ fromProductType, fromLocation, fromuser, order, orderB
     let tempHead = [];
     if (fromuser) {
         tempHead = headUserCell;
-    }else if (fromLocation){
+    } else if (fromLocation) {
         tempHead = headLocationCell;
-    }else if(fromProductType){
+    } else if (fromProductType) {
         tempHead = headProductTypeCells
     }
-    else{
+    else {
         tempHead = headCells
     }
     return (
@@ -160,6 +168,7 @@ function OrderTableHead({ fromProductType, fromLocation, fromuser, order, orderB
                     >
                         {headCell.label}
                     </TableCell>
+
                 ))}
             </TableRow>
         </TableHead>
@@ -266,7 +275,7 @@ export default function OrderTable(props) {
                 >
                     <OrderTableHead fromProductType={props.fromProductType} fromLocation={props.fromLocation} fromuser={props.fromUser} order={order} orderBy={orderBy} />
                     <TableBody>
-                        {stableSort( props.fromProductType ? rowProductType : props.fromLocation ? rowArea : props.fromUser ? rowUser : rows, getComparator(order, orderBy)).map((row, index) => {
+                        {stableSort(props.fromProductType ? rowProductType : props.fromLocation ? rowArea : props.fromUser ? rowUser : rows, getComparator(order, orderBy)).map((row, index) => {
                             const isItemSelected = isSelected(row.trackingNo);
                             const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -286,13 +295,16 @@ export default function OrderTable(props) {
                                         </Link>
                                     </TableCell>
                                     <TableCell align="left">{row.name}</TableCell>
-                                    <TableCell align="right">{row.fat}</TableCell>
-                                    <TableCell align="left">
+                                    <TableCell align="left">{row.fat}</TableCell>
+                                    <TableCell align="left">{row.carbs}</TableCell>
+                                    <OrderStatus status={row.carbs} />
+
+                                    {/* <TableCell align="left">
                                         <OrderStatus status={row.carbs} />
-                                    </TableCell>
-                                    <TableCell align="right">
+                                    </TableCell> */}
+                                    {/* <TableCell align="left">
                                         <NumberFormat value={row.protein} displayType="text" thousandSeparator prefix="$" />
-                                    </TableCell>
+                                    </TableCell> */}
                                 </TableRow>
                             );
                         })}
